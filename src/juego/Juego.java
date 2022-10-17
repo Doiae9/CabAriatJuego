@@ -1,7 +1,8 @@
-package Juego;
+package juego;
 
 import javax.swing.*;
 import java.awt.*;
+
 
 public class Juego extends Canvas implements Runnable {
     private static final long serialVersionUID = 1l;
@@ -12,7 +13,7 @@ public class Juego extends Canvas implements Runnable {
     private static volatile boolean EnFuncionamiento= false;
     //Usamos volatile para indicar que no debería poder usarse por dos métodos
     //al mismo tiempo
-    private static final String NOMBRE ="Juego";
+    private static final String NOMBRE = "juego";
     private static int aps =0;
     private static int fps=0;
     private static JFrame ventana;
