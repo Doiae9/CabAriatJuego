@@ -13,7 +13,8 @@ public class Juego extends Canvas implements Runnable {
     //Usamos volatile para indicar que no debería poder usarse por dos métodos
     //al mismo tiempo
     private static final String NOMBRE ="Juego";
-
+    private static int aps =0;
+    private static int fps=0;
     private static JFrame ventana;
     private static Thread thread; //Creamos un thread para dividir el trabajo de ejecución
 
@@ -53,10 +54,10 @@ public class Juego extends Canvas implements Runnable {
         }
     }
     private void Actualizar(){//Actualizaremos lo que se coloque en pantalla
-
+    aps++;
     }
     private void Mostrar(){//Dibuja los graficos en consecuencia
-
+    fps++;
     }
 
     @Override
@@ -69,6 +70,7 @@ public class Juego extends Canvas implements Runnable {
         // Aquí usaremos el tiempo de procesador más no de la máquina en si
         //para no hacer el juego injugable dependiendo de el SO
         //System.nanoTime();
+        long referenciaContador= System.nanoTime();
         double tiempoTranscurrido;
         double delta=0; //Cantidad de tiempo que a transcurrido durante una actualización
 
@@ -79,7 +81,7 @@ public class Juego extends Canvas implements Runnable {
             //desde este momento y el anterior nanotime
             referenciaActualizacion= inicioBucle;
             delta += tiempoTranscurrido/NS_POR_ACTUALIZACIÓN;
-
+ //Cada vez que delta llegue a 1 se va a actualizar el juego
             while (delta>=1){
                 Actualizar();
                 delta--;
@@ -87,7 +89,15 @@ public class Juego extends Canvas implements Runnable {
             //Limitaremos ambos métodos para que se actualicen sin importar el procesamiento
 
             Mostrar();
-
+        if (System.nanoTime()-referenciaContador>NS_POR_SEGUNDO){
+        //Se toma el tiempo para este ciclo, se hace una diferencia con el contador inicial
+            //para antes de llegar a este ciclo, y se compara con el tiempo para actualizar
+            ventana.setTitle(NOMBRE+ "|| APS: " +aps+" || FPS: "+fps);
+            aps=0;
+            fps=0;
+            referenciaContador=System.nanoTime();
+            //Con este metodo tendremos una referencia de cuantos fps corre el juego
+        }
         }
 
         System.out.print("El thread 2 se esta ejecutando con éxito");
