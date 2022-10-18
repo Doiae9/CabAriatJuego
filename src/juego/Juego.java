@@ -1,7 +1,11 @@
 package juego;
 
+import control.Teclado;
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import java.awt.*;
+
 
 
 public class Juego extends Canvas implements Runnable {
@@ -18,10 +22,12 @@ public class Juego extends Canvas implements Runnable {
     private static int fps=0;
     private static JFrame ventana;
     private static Thread thread; //Creamos un thread para dividir el trabajo de ejecución
-
+    private static Teclado teclado;
     private Juego(){
     setPreferredSize(new Dimension(ANCHO,ALTO));
 
+    teclado = new Teclado();
+    addKeyListener(teclado);
     ventana = new JFrame(NOMBRE);
     ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setResizable(false);
@@ -55,7 +61,20 @@ public class Juego extends Canvas implements Runnable {
         }
     }
     private void Actualizar(){//Actualizaremos lo que se coloque en pantalla
-    aps++;
+    teclado.actualizar();
+    if(teclado.arriba){
+        System.out.println("arriba");
+    }
+    if(teclado.abajo){
+            System.out.println("abajo");
+        }
+    if(teclado.izquierda){
+            System.out.println("izquierda");
+        }
+        if(teclado.derecha){
+            System.out.println("derecha");
+        }
+        aps++;
     }
     private void Mostrar(){//Dibuja los graficos en consecuencia
     fps++;
@@ -75,6 +94,7 @@ public class Juego extends Canvas implements Runnable {
         double tiempoTranscurrido;
         double delta=0; //Cantidad de tiempo que a transcurrido durante una actualización
 
+        requestFocus();
         while (EnFuncionamiento){
             final long inicioBucle=System.nanoTime();
             tiempoTranscurrido= inicioBucle - referenciaActualizacion;
@@ -104,4 +124,5 @@ public class Juego extends Canvas implements Runnable {
         System.out.print("El thread 2 se esta ejecutando con éxito");
     }//Aquí revisamos que el primer thread implementado en la interfaz runnable
     //se esté ejecutando, mas tarde usaremos threads para el multijugador
+
 }

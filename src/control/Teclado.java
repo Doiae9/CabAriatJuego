@@ -17,18 +17,18 @@ public class Teclado implements KeyListener {
         izquierda= teclas[KeyEvent.VK_A];
         derecha= teclas[KeyEvent.VK_D];
     }
-    @Override
-    public void keyTyped(KeyEvent e) {
-    teclas[e.getKeyCode()]= true;
-    }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        teclas[e.getKeyCode()]= false;
+        teclas[e.getKeyCode()]= true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        teclas[e.getKeyCode()]= false;
+    }
+    @Override
+    public void keyTyped(KeyEvent e) {
 
     }
 }
